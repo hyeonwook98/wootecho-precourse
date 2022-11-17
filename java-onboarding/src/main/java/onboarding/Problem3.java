@@ -2,18 +2,15 @@ package onboarding;
 
 public class Problem3 {
 
-    static private int count = 0;
     public static int solution(int number) {
 
+        int result = 0;
         for (int i = 1; i <= number; i++) {
             char[] arrNum = divisionNum(i);
-            boolean clap = isClap(arrNum);
-            if (clap == true) {
-                addCount();
-            }
+            result += is369(arrNum);
         }
 
-        return count;
+        return result;
     }
 
     public static char[] divisionNum(int number) {
@@ -21,17 +18,13 @@ public class Problem3 {
         return arrNum;
     }
 
-//    public static boolean isClap(char[] numArr) {
-//        boolean status = false;
-//        for (char c : numArr) {
-//            if ((c - '0' == 3) || (c - '0' == 6) || (c - '0' == 9)) {
-//                status = true;
-//            }
-//        }
-//        return status;
-//    }
-
-    public static void addCount() {
-        count += 1;
+    public static int is369(char[] numArr) {
+        int number = 0;
+        for (char c : numArr) {
+            if ((c - '0' == 3) || (c - '0' == 6) || (c - '0' == 9)) {
+                number += 1;
+            }
+        }
+        return number;
     }
 }
