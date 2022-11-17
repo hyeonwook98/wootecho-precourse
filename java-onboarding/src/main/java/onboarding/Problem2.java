@@ -49,7 +49,7 @@ public class Problem2 {
     }
 
     public static String getResult(ArrayList<Character> list) {
-        
+
         String str = "";
         for (Character c : list) {
             str += c;
