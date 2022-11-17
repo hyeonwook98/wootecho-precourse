@@ -19,7 +19,7 @@ class Problem1 {
         int crongLeft = crong.get(0);
         int crongRight = crong.get(1);
 
-        if (isException(pobiLeft, pobiRight) || isException(crongLeft, crongRight)) {
+        if (!(isNotException(pobiLeft, pobiRight) && isNotException(crongLeft, crongRight))) {
             return EXCEPTION_RESULT;
         }
 
@@ -29,34 +29,36 @@ class Problem1 {
         return result;
 
     }
-    //    예외사항 확인 메소드
-    public static boolean isException(int leftPage, int rightPage) {
-        if ((rightPage - leftPage) != 1){
-            return true;
-        }
-        if (((leftPage % 2) != 1) || ((rightPage % 2) != 0)){
-            return true;
-        }
-        if ((leftPage < FIRST_PAGE) || (rightPage > LAST_PAGE)){
-            return true;
-        }
-        if (leftPage >= rightPage) {
-            return true;
-        }
-        return false;
+    private static boolean isNotException(int leftPage, int rightPage) {
+        return pageContinuous(leftPage, rightPage)
+                && checkLeftOddRightEven(leftPage, rightPage)
+                && pageNotOver(leftPage, rightPage)
+                && leftPageSmaller(leftPage, rightPage);
     }
 
-    //    가장 큰 수를 구하는 메소드
-    public static int getScore(int leftPage, int rightPage){
+    private static boolean pageContinuous(int leftPage, int rightPage) {
+        return (rightPage - leftPage) == 1;
+    }
 
+    private static boolean checkLeftOddRightEven(int leftPage, int rightPage) {
+        return (leftPage % 2 == 1) && (rightPage % 2 == 0);
+    }
+
+    private static boolean pageNotOver(int leftPage, int rightPage) {
+        return (leftPage > FIRST_PAGE) || (rightPage < LAST_PAGE);
+    }
+
+    private static boolean leftPageSmaller(int leftPage, int rightPage) {
+        return leftPage < rightPage;
+    }
+
+    private static int getScore(int leftPage, int rightPage) {
         int leftScore = getBiggerNum(leftPage);
         int rightScore = getBiggerNum(rightPage);
-
         return Math.max(leftScore, rightScore);
     }
 
-//    합과 곱 중 큰 수를 구하는 메소드
-    public static int getBiggerNum(int num) {
+    private static int getBiggerNum(int num) {
         int sum = 0;
         int mul = 1;
 
@@ -65,13 +67,10 @@ class Problem1 {
             sum += c - '0';
             mul *= c - '0';
         }
-
         return Math.max(sum, mul);
     }
 
-    //    pobi점수와 crong점수 비교하는 메소드
-    public static int getResult(int pobiScore, int crongScore){
-
+    private static int getResult(int pobiScore, int crongScore){
         if (pobiScore > crongScore) {
             return POBI_WIN;
         }
